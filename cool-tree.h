@@ -23,7 +23,8 @@ public:
    virtual Program copy_Program() = 0;
 
 #ifdef Program_EXTRAS
-   Program_EXTRAS
+   virtual void cgen(ostream&) = 0;
+   virtual void dump_with_types(ostream&, int) = 0; 
 #endif
 };
 
@@ -37,7 +38,10 @@ public:
    virtual Class_ copy_Class_() = 0;
 
 #ifdef Class__EXTRAS
-   Class__EXTRAS
+   virtual Symbol get_name() = 0;
+   virtual Symbol get_parent() = 0;
+   virtual Symbol get_filename() = 0;
+   virtual void dump_with_types(ostream&,int) = 0;
 #endif
 };
 
@@ -51,7 +55,8 @@ public:
    virtual Feature copy_Feature() = 0;
 
 #ifdef Feature_EXTRAS
-   Feature_EXTRAS
+   virtual void dump_with_types(ostream&,int) = 0;
+   virtual Symbol get_name() = 0;
 #endif
 };
 
@@ -65,7 +70,7 @@ public:
    virtual Formal copy_Formal() = 0;
 
 #ifdef Formal_EXTRAS
-   Formal_EXTRAS
+   virtual void dump_with_types(ostream&,int) = 0;
 #endif
 };
 
@@ -79,7 +84,13 @@ public:
    virtual Expression copy_Expression() = 0;
 
 #ifdef Expression_EXTRAS
-   Expression_EXTRAS
+   Symbol type;
+   Symbol get_type() { return type; }
+   Expression set_type(Symbol s) { type = s; return this; }
+   virtual void code(ostream&) = 0;
+   virtual void dump_with_types(ostream&,int) = 0;
+   void dump_type(ostream&, int);
+   Expression_class() { type = (Symbol) NULL; }
 #endif
 };
 
@@ -93,7 +104,7 @@ public:
    virtual Case copy_Case() = 0;
 
 #ifdef Case_EXTRAS
-   Case_EXTRAS
+   virtual void dump_with_types(ostream& ,int) = 0;
 #endif
 };
 
@@ -140,7 +151,8 @@ public:
    Program_SHARED_EXTRAS
 #endif
 #ifdef program_EXTRAS
-   program_EXTRAS
+   void cgen(ostream&);
+   void dump_with_types(ostream&, int); 
 #endif
 };
 
@@ -166,7 +178,10 @@ public:
    Class__SHARED_EXTRAS
 #endif
 #ifdef class__EXTRAS
-   class__EXTRAS
+   Symbol get_name()   { return name; }
+   Symbol get_parent() { return parent; }
+   Symbol get_filename() { return filename; }
+   void dump_with_types(ostream&,int);  
 #endif
 };
 
@@ -189,7 +204,8 @@ public:
    void dump(ostream& stream, int n);
 
 #ifdef Feature_SHARED_EXTRAS
-   Feature_SHARED_EXTRAS
+   void dump_with_types(ostream&,int);
+   Symbol get_name() { return name; }
 #endif
 #ifdef method_EXTRAS
    method_EXTRAS
@@ -213,10 +229,11 @@ public:
    void dump(ostream& stream, int n);
 
 #ifdef Feature_SHARED_EXTRAS
-   Feature_SHARED_EXTRAS
+   void dump_with_types(ostream&,int);
+   Symbol get_name() { return name; }
 #endif
 #ifdef attr_EXTRAS
-   attr_EXTRAS
+   Symbol get_type() { return type_decl; }
 #endif
 };
 
@@ -238,7 +255,7 @@ public:
    Formal_SHARED_EXTRAS
 #endif
 #ifdef formal_EXTRAS
-   formal_EXTRAS
+   void dump_with_types(ostream&,int);
 #endif
 };
 
@@ -262,7 +279,7 @@ public:
    Case_SHARED_EXTRAS
 #endif
 #ifdef branch_EXTRAS
-   branch_EXTRAS
+   void dump_with_types(ostream& ,int);
 #endif
 };
 
@@ -281,7 +298,8 @@ public:
    void dump(ostream& stream, int n);
 
 #ifdef Expression_SHARED_EXTRAS
-   Expression_SHARED_EXTRAS
+   void code(ostream&);
+   void dump_with_types(ostream&,int); 
 #endif
 #ifdef assign_EXTRAS
    assign_EXTRAS
@@ -307,7 +325,8 @@ public:
    void dump(ostream& stream, int n);
 
 #ifdef Expression_SHARED_EXTRAS
-   Expression_SHARED_EXTRAS
+   void code(ostream&);
+   void dump_with_types(ostream&,int); 
 #endif
 #ifdef static_dispatch_EXTRAS
    static_dispatch_EXTRAS
@@ -331,7 +350,8 @@ public:
    void dump(ostream& stream, int n);
 
 #ifdef Expression_SHARED_EXTRAS
-   Expression_SHARED_EXTRAS
+   void code(ostream&);
+   void dump_with_types(ostream&,int); 
 #endif
 #ifdef dispatch_EXTRAS
    dispatch_EXTRAS
@@ -355,7 +375,8 @@ public:
    void dump(ostream& stream, int n);
 
 #ifdef Expression_SHARED_EXTRAS
-   Expression_SHARED_EXTRAS
+   void code(ostream&);
+   void dump_with_types(ostream&,int); 
 #endif
 #ifdef cond_EXTRAS
    cond_EXTRAS
@@ -377,7 +398,8 @@ public:
    void dump(ostream& stream, int n);
 
 #ifdef Expression_SHARED_EXTRAS
-   Expression_SHARED_EXTRAS
+   void code(ostream&);
+   void dump_with_types(ostream&,int); 
 #endif
 #ifdef loop_EXTRAS
    loop_EXTRAS
@@ -399,7 +421,8 @@ public:
    void dump(ostream& stream, int n);
 
 #ifdef Expression_SHARED_EXTRAS
-   Expression_SHARED_EXTRAS
+   void code(ostream&);
+   void dump_with_types(ostream&,int); 
 #endif
 #ifdef typcase_EXTRAS
    typcase_EXTRAS
@@ -419,7 +442,8 @@ public:
    void dump(ostream& stream, int n);
 
 #ifdef Expression_SHARED_EXTRAS
-   Expression_SHARED_EXTRAS
+   void code(ostream&);
+   void dump_with_types(ostream&,int); 
 #endif
 #ifdef block_EXTRAS
    block_EXTRAS
@@ -445,7 +469,8 @@ public:
    void dump(ostream& stream, int n);
 
 #ifdef Expression_SHARED_EXTRAS
-   Expression_SHARED_EXTRAS
+   void code(ostream&);
+   void dump_with_types(ostream&,int); 
 #endif
 #ifdef let_EXTRAS
    let_EXTRAS
@@ -467,7 +492,8 @@ public:
    void dump(ostream& stream, int n);
 
 #ifdef Expression_SHARED_EXTRAS
-   Expression_SHARED_EXTRAS
+   void code(ostream&);
+   void dump_with_types(ostream&,int); 
 #endif
 #ifdef plus_EXTRAS
    plus_EXTRAS
@@ -489,7 +515,8 @@ public:
    void dump(ostream& stream, int n);
 
 #ifdef Expression_SHARED_EXTRAS
-   Expression_SHARED_EXTRAS
+   void code(ostream&);
+   void dump_with_types(ostream&,int); 
 #endif
 #ifdef sub_EXTRAS
    sub_EXTRAS
@@ -511,7 +538,8 @@ public:
    void dump(ostream& stream, int n);
 
 #ifdef Expression_SHARED_EXTRAS
-   Expression_SHARED_EXTRAS
+   void code(ostream&);
+   void dump_with_types(ostream&,int); 
 #endif
 #ifdef mul_EXTRAS
    mul_EXTRAS
@@ -533,7 +561,8 @@ public:
    void dump(ostream& stream, int n);
 
 #ifdef Expression_SHARED_EXTRAS
-   Expression_SHARED_EXTRAS
+   void code(ostream&);
+   void dump_with_types(ostream&,int); 
 #endif
 #ifdef divide_EXTRAS
    divide_EXTRAS
@@ -553,7 +582,8 @@ public:
    void dump(ostream& stream, int n);
 
 #ifdef Expression_SHARED_EXTRAS
-   Expression_SHARED_EXTRAS
+   void code(ostream&);
+   void dump_with_types(ostream&,int); 
 #endif
 #ifdef neg_EXTRAS
    neg_EXTRAS
@@ -575,7 +605,8 @@ public:
    void dump(ostream& stream, int n);
 
 #ifdef Expression_SHARED_EXTRAS
-   Expression_SHARED_EXTRAS
+   void code(ostream&);
+   void dump_with_types(ostream&,int); 
 #endif
 #ifdef lt_EXTRAS
    lt_EXTRAS
@@ -597,7 +628,8 @@ public:
    void dump(ostream& stream, int n);
 
 #ifdef Expression_SHARED_EXTRAS
-   Expression_SHARED_EXTRAS
+   void code(ostream&);
+   void dump_with_types(ostream&,int); 
 #endif
 #ifdef eq_EXTRAS
    eq_EXTRAS
@@ -619,7 +651,8 @@ public:
    void dump(ostream& stream, int n);
 
 #ifdef Expression_SHARED_EXTRAS
-   Expression_SHARED_EXTRAS
+   void code(ostream&);
+   void dump_with_types(ostream&,int); 
 #endif
 #ifdef leq_EXTRAS
    leq_EXTRAS
@@ -639,7 +672,8 @@ public:
    void dump(ostream& stream, int n);
 
 #ifdef Expression_SHARED_EXTRAS
-   Expression_SHARED_EXTRAS
+   void code(ostream&);
+   void dump_with_types(ostream&,int); 
 #endif
 #ifdef comp_EXTRAS
    comp_EXTRAS
@@ -659,7 +693,8 @@ public:
    void dump(ostream& stream, int n);
 
 #ifdef Expression_SHARED_EXTRAS
-   Expression_SHARED_EXTRAS
+   void code(ostream&);
+   void dump_with_types(ostream&,int); 
 #endif
 #ifdef int_const_EXTRAS
    int_const_EXTRAS
@@ -679,7 +714,8 @@ public:
    void dump(ostream& stream, int n);
 
 #ifdef Expression_SHARED_EXTRAS
-   Expression_SHARED_EXTRAS
+   void code(ostream&);
+   void dump_with_types(ostream&,int); 
 #endif
 #ifdef bool_const_EXTRAS
    bool_const_EXTRAS
@@ -699,7 +735,8 @@ public:
    void dump(ostream& stream, int n);
 
 #ifdef Expression_SHARED_EXTRAS
-   Expression_SHARED_EXTRAS
+   void code(ostream&);
+   void dump_with_types(ostream&,int); 
 #endif
 #ifdef string_const_EXTRAS
    string_const_EXTRAS
@@ -719,7 +756,8 @@ public:
    void dump(ostream& stream, int n);
 
 #ifdef Expression_SHARED_EXTRAS
-   Expression_SHARED_EXTRAS
+   void code(ostream&);
+   void dump_with_types(ostream&,int); 
 #endif
 #ifdef new__EXTRAS
    new__EXTRAS
@@ -739,7 +777,8 @@ public:
    void dump(ostream& stream, int n);
 
 #ifdef Expression_SHARED_EXTRAS
-   Expression_SHARED_EXTRAS
+   void code(ostream&);
+   void dump_with_types(ostream&,int); 
 #endif
 #ifdef isvoid_EXTRAS
    isvoid_EXTRAS
@@ -757,7 +796,8 @@ public:
    void dump(ostream& stream, int n);
 
 #ifdef Expression_SHARED_EXTRAS
-   Expression_SHARED_EXTRAS
+   void code(ostream&);
+   void dump_with_types(ostream&,int); 
 #endif
 #ifdef no_expr_EXTRAS
    no_expr_EXTRAS
@@ -777,7 +817,8 @@ public:
    void dump(ostream& stream, int n);
 
 #ifdef Expression_SHARED_EXTRAS
-   Expression_SHARED_EXTRAS
+   void code(ostream&);
+   void dump_with_types(ostream&,int); 
 #endif
 #ifdef object_EXTRAS
    object_EXTRAS

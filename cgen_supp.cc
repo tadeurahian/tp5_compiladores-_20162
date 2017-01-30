@@ -47,15 +47,15 @@ void emit_string_constant(ostream& str, char* s)
       break;
     default:
       if (*s >= ' ' && ((unsigned char) *s) < 128) 
-	{
-	  ascii_mode(str);
-	  str << *s;
-	}
+  {
+    ascii_mode(str);
+    str << *s;
+  }
       else 
-	{
-	  byte_mode(str);
-	  str << "\t.byte\t" << (int) ((unsigned char) *s) << endl;
-	}
+  {
+    byte_mode(str);
+    str << "\t.byte\t" << (int) ((unsigned char) *s) << endl;
+  }
       break;
     }
     s++;
@@ -63,5 +63,4 @@ void emit_string_constant(ostream& str, char* s)
   byte_mode(str);
   str << "\t.byte\t0\t" << endl;
 }
-
 

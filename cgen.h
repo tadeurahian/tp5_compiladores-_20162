@@ -1,8 +1,12 @@
 #include <assert.h>
 #include <stdio.h>
+#include <sstream>
 #include "emit.h"
 #include "cool-tree.h"
 #include "symtab.h"
+
+using std::stringstream;
+using std::string;
 
 enum Basicness     {Basic, NotBasic};
 #define TRUE 1
@@ -55,6 +59,8 @@ private:
    List<CgenNode> *children;                  // Children of class
    Basicness basic_status;                    // `Basic' if class is basic
                                               // `NotBasic' otherwise
+   int id;
+
 
 public:
    CgenNode(Class_ c,
@@ -66,6 +72,11 @@ public:
    void set_parentnd(CgenNodeP p);
    CgenNodeP get_parentnd() { return parentnd; }
    int basic() { return (basic_status == Basic); }
+   int get_id() { return id; }
+   void code_prototype(ostream& s);
+   void code_class_name_tab(ostream& s);
+   void code_class_obj_tab(ostream& s);
+   string code_disp_table(string p, ostream& s);
 };
 
 class BoolConst 
@@ -77,4 +88,3 @@ class BoolConst
   void code_def(ostream&, int boolclasstag);
   void code_ref(ostream&) const;
 };
-
