@@ -576,23 +576,6 @@ void CgenClassTable::code_bools(int boolclasstag)
   truebool.code_def(str,boolclasstag);
 }
 
-void CgenClassTable::code_select_gc()
-{
-  //
-  // Generate GC choice constants (pointers to GC functions)
-  //
-  str << GLOBAL << "_MemMgr_INITIALIZER" << endl;
-  str << "_MemMgr_INITIALIZER:" << endl;
-  str << WORD << gc_init_names[cgen_Memmgr] << endl;
-  str << GLOBAL << "_MemMgr_COLLECTOR" << endl;
-  str << "_MemMgr_COLLECTOR:" << endl;
-  str << WORD << gc_collect_names[cgen_Memmgr] << endl;
-  str << GLOBAL << "_MemMgr_TEST" << endl;
-  str << "_MemMgr_TEST:" << endl;
-  str << WORD << (cgen_Memmgr_Test == GC_TEST) << endl;
-}
-
-
 //********************************************************
 //
 // Emit code to reserve space for and initialize all of
@@ -948,9 +931,6 @@ void CgenClassTable::code()
 {
   if (cgen_debug) cout << "coding global data" << endl;
   code_global_data();
-
-  if (cgen_debug) cout << "choosing gc" << endl;
-  code_select_gc();
 
   if (cgen_debug) cout << "coding constants" << endl;
   code_constants();

@@ -33,7 +33,6 @@ private:
    void code_global_data();
    void code_global_text();
    void code_bools(int);
-   void code_select_gc();
    void code_constants();
 
 // The following creates an inheritance graph from

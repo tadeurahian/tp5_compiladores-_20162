@@ -227,6 +227,7 @@ public:
    }
    Feature copy_Feature();
    void dump(ostream& stream, int n);
+   Symbol get_type() { return type_decl; }
 
 #ifdef Feature_SHARED_EXTRAS
    void dump_with_types(ostream&,int);
